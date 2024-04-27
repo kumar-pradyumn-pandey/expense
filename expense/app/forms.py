@@ -11,3 +11,11 @@ class LoginForm(forms.Form):
     class Meta:
         model = User
         fields = ['email_or_phone','password']
+
+class AddCategoryForm(forms.Form):
+    name = forms.CharField(label="", required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Name'}))
+
+    class Meta:
+        models = Category
+        fields=['name']

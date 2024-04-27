@@ -58,3 +58,38 @@ class Dashboard(View):
         user = request.user
         context = {'data': {"user":user}}
         return render(request, 'dashboard.html', context)
+
+
+class CategoryManagement(View):
+    def get(self, request):
+        category_form=AddCategoryForm()
+        context={'form':category_form}
+        return render(request,'add_category.html',context)
+    def post(self,request):
+        category_form=AddCategoryForm(request.POST)
+        context={'form':category_form}
+        if category_form.is_valid():
+            name=category_form.cleaned_data.get('name')
+            # image = category_form.cleaned_data.get('image')
+            # image_list = request.FILES.getlist('image')
+            # fs = FileSystemStorage("media/media/")
+            # filename = fs.save(image.name, image)
+            # image_url = fs.url(filename)
+            check_existing_category = Category.objects.filter(name__iexact = name)
+            if check_existing_category:
+                messages.error(request,"Category Already Exists!")
+                return render(request,'add_category.html',context)
+            category_instance=Category(name=name)
+            category_instance.save()
+            messages.success(request,"Category Added Successfully")
+            return render(request,'add_category.html',context)  # type: ignore
+        else:
+            messages.error(request,'You Entered Wrong data')
+            return render(request,'add-category.html',context)  # type: ignore
+
+
+class CategoryListing(View):
+    def get(self, request):
+        data = Category.objects.all()
+        serializer = CategoryListSerializer(data,many=True)
+        return render(request,'category_list.html',context={"category_list":serializer.data})
