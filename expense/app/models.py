@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.TextField(null=True)
+    is_active = models.BooleanField(default=True)
+    type = models.TextField(null=True) # incoming/ outgoing
     created_on = models.DateTimeField(auto_now_add = True)
     class Meta:
         db_table="category"

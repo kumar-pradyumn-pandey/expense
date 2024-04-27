@@ -15,7 +15,20 @@ class LoginForm(forms.Form):
 class AddCategoryForm(forms.Form):
     name = forms.CharField(label="", required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Name'}))
-
+    category_choices=[("Incoming","Incoming"),("Outgoing","Outgoing")]
+    type = forms.ChoiceField(label="", required=True, choices=category_choices)
     class Meta:
         models = Category
-        fields=['name']
+        fields=['name','type']
+
+
+
+class EditCategoryForm(forms.ModelForm):
+    id = forms.IntegerField()
+    name = forms.CharField(label="", required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Name'}))
+    category_choices=[("Incoming","Incoming"),("Outgoing","Outgoing")]
+    type = forms.ChoiceField(label="", required=True, choices=category_choices)
+    class Meta:
+        model = Category
+        fields = ["id",'name','type']
