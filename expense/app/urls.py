@@ -14,7 +14,9 @@ urlpatterns = [
 
 
     path("expense_list/",ListAllExpenses.as_view(),name="expense_list"),
-    path("expense/",ExpenseManagement.as_view(),name="expense")
+    path("expense/",ExpenseManagement.as_view(),name="expense"),
+    path("delete_expense/<int:id>",DeleteExpense.as_view(),name="delete_expense")
+
 
 
 

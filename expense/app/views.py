@@ -60,7 +60,7 @@ class Dashboard(View):
         all_income = Expense.objects.filter(category__type="Incoming").aggregate(total=Sum('amount'))['total']
         recent_transactions = Expense.objects.all().order_by("-created_on")[:15]
         txns = ExpenseListSerializer(recent_transactions,many=True)
-        money_data ={"income":all_income,"expense":all_expenses}
+        money_data ={"income":all_income if all_income is not None else 0,"expense":all_expenses if all_expenses is not None else 0}
         context = {'data': {"user":user,
                             "expense":money_data.get("expense",0),
                             "income":money_data.get("income",0),
@@ -234,3 +234,10 @@ class ExpenseManagement(View):
         else:
             messages.error(request,'You Entered Wrong data')
             return render(request,'add_expense.html',context)
+    
+
+class DeleteExpense(View):
+    def get(self,request,id):
+        expense = Expense.objects.filter(id = int(id)).last()
+        expense.delete()
+        return redirect(reverse("expense_list"))
