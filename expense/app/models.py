@@ -14,8 +14,9 @@ class Category(models.Model):
 
 class Expense(models.Model):
     amount = models.CharField(max_length=20,null=True)
-    categoy = models.ForeignKey(Category, on_delete= models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete= models.CASCADE, null=True)
     description = models.TextField(null=True)
+    date=models.DateTimeField(null=True)
     created_on = models.DateTimeField(auto_now_add = True)
     updated_on = models.DateTimeField(auto_now_add = True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

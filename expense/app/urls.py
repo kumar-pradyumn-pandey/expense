@@ -13,7 +13,9 @@ urlpatterns = [
     path('update_category/',EditCategoryUpdate.as_view(),name="update_category"),
 
 
-    path("expense_list/",ListAllExpenses.as_view(),name="expense_list")
+    path("expense_list/",ListAllExpenses.as_view(),name="expense_list"),
+    path("expense/",ExpenseManagement.as_view(),name="expense")
+
 
 
 

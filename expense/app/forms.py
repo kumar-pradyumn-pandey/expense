@@ -32,3 +32,17 @@ class EditCategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ["id",'name','type']
+
+
+class AddExpenseForm(forms.ModelForm):
+    amount = forms.CharField(label="", required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Amount'}))
+    description = forms.CharField(label="", required=False, widget=forms.Textarea(
+        attrs={'class': 'form-control', 'placeholder': 'Description'}))
+    category_list = Category.objects.filter(is_active=True)
+    category_choices=[(data.id,data.name) for data in category_list]
+    category_id = forms.ChoiceField(label="", required=True, choices=category_choices)
+    date=  forms.DateTimeField(label="",required=True,widget=forms.DateTimeInput(attrs={'class': 'form-control', 'placeholder': 'Date',"type":"datetime-local"}))
+    class Meta:
+        model = Expense
+        fields = ['amount','date','description','category_id']

@@ -20,9 +20,12 @@ class CategoryListSerializer(serializers.ModelSerializer):
 class ExpenseListSerializer(serializers.ModelSerializer):
     page = serializers.SerializerMethodField()
     created_on = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    category_name = serializers.SerializerMethodField()
+    type= serializers.SerializerMethodField()
     class Meta:
         model = Expense
-        fields=['id','amount',"category","category__name",'page','category__type','created_on']
+        fields=['id','amount',"category_id","category_name","type",'page','created_on','description']
     def get_page(self,obj):
         page = self.context.get('page',1)
         # Access the context from the serializer to get the current index
@@ -32,5 +35,14 @@ class ExpenseListSerializer(serializers.ModelSerializer):
         # Update the context with the new counter value
         self.context['counter'] = counter
         return (page-1)*10 + counter
+    def get_description(self,obj):
+        if obj.description:
+            return obj.description
+        else:
+            return ""
+    def get_category_name(self,obj):
+        return obj.category.name
+    def get_type(self,obj):
+        return obj.category.type
     def get_created_on(self,obj):
-        return obj.created_on.strftime("%d/%m/%Y %I:%M:%S %p")
+        return obj.date.strftime("%d/%m/%Y %I:%M:%S %p")

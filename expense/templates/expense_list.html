@@ -40,7 +40,7 @@
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'dashboard' %}">Expense Tracker</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <p style="color:white";>Welcome, {{data.user}}</p>
@@ -135,7 +135,7 @@
       <div>
       <h2>Expense List</h2>
       <div style="text-align:right;">
-        <a href="" class="btn btn-success btn-block" style="box-shadow: 10px 10px 10px grey;"> Add Expense </a>
+        <a href="{% url 'expense'%}" class="btn btn-success btn-block" style="box-shadow: 10px 10px 10px grey;"> Add Expense </a>
     </div>
   </div>
       <div class="table-responsive" >
@@ -147,16 +147,24 @@
               <th scope="col">Type</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>
+              <th scope="col">Date & Time</th>
+              <th scope="col">Action</th>
+
+
             </tr>
           </thead>
           <tbody>
             {% for object in expense_list %}
             <tr>
               <td>{{object.page}}</td>
-              <td>{{object.category__name}}</td>
-              <td>{{object.category__type}}</td>
+              <td>{{object.category_name}}</td>
+              <td>{{object.type}}</td>
               <td>{{object.amount}}</td>
               <td>{{object.description}}</td>
+              <td>{{object.created_on}}</td>
+              <td><a href="">Edit</a> &nbsp; <a href="">Delete</a></td>
+
+
 
             </tr>
             {% endfor %}
