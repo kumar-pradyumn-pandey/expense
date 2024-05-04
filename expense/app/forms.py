@@ -46,3 +46,11 @@ class AddExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = ['amount','date','description','category_id']
+    def __init__(self, *args, **kwargs):
+        super(AddExpenseForm, self).__init__(*args, **kwargs)
+        self.fields['category_id'].choices = self.get_category_choices()
+
+    def get_category_choices(self):
+        categories = Category.objects.filter(is_active=True)
+        choices = [(category.id, category.name) for category in categories]
+        return choices
