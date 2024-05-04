@@ -49,6 +49,7 @@ class AddExpenseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddExpenseForm, self).__init__(*args, **kwargs)
         self.fields['category_id'].choices = self.get_category_choices()
+        self.fields['category_id'].widget.attrs.update({'class': 'form-control select2'})
 
     def get_category_choices(self):
         categories = Category.objects.filter(is_active=True)
